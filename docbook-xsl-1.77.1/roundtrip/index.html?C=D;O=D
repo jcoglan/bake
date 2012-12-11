@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Index of /release/xsl/1.77.1/roundtrip</title>
+ </head>
+ <body>
+<h1>Index of /release/xsl/1.77.1/roundtrip</h1>
+<pre><img src="/icons/blank.gif" alt="Icon "> <a href="?C=N;O=A">Name</a>                    <a href="?C=M;O=A">Last modified</a>      <a href="?C=S;O=A">Size</a>  <a href="?C=D;O=A">Description</a><hr><img src="/icons/back.gif" alt="[DIR]"> <a href="/release/xsl/1.77.1/">Parent Directory</a>                             -   
+<img src="/icons/text.gif" alt="[   ]"> <a href="wordml2normalise.xsl">wordml2normalise.xsl</a>    09-Jan-2012 14:07   17K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="template.xml">template.xml</a>            09-Jan-2012 14:07   85K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="template.dot">template.dot</a>            09-Jan-2012 14:07   38K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="template-pages.xml">template-pages.xml</a>      09-Jan-2012 14:07  417K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="specifications.xml">specifications.xml</a>      09-Jan-2012 14:07   66K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="sections2blocks.xsl">sections2blocks.xsl</a>     09-Jan-2012 14:07   16K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="sections-spec.xml">sections-spec.xml</a>       09-Jan-2012 14:07  1.4K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="param.xsl">param.xsl</a>               09-Jan-2012 14:09  702   
+<img src="/icons/text.gif" alt="[TXT]"> <a href="param.xml">param.xml</a>               04-Jun-2012 22:01  4.0K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="pages2normalise.xsl">pages2normalise.xsl</a>     09-Jan-2012 14:07   14K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="normalise2sections.xsl">normalise2sections.xsl</a>  09-Jan-2012 14:07   73K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="normalise-common.xsl">normalise-common.xsl</a>    09-Jan-2012 14:07  1.4K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="dbk2wp.xsl">dbk2wp.xsl</a>              02-Jun-2012 21:58   54K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="dbk2wordml.xsl">dbk2wordml.xsl</a>          02-Jun-2012 21:58   12K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="dbk2pages.xsl">dbk2pages.xsl</a>           02-Jun-2012 21:58   16K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="dbk2ooo.xsl">dbk2ooo.xsl</a>             02-Jun-2012 21:58  5.9K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="blocks2dbk.xsl">blocks2dbk.xsl</a>          09-Jan-2012 14:07   67K  
+<img src="/icons/text.gif" alt="[   ]"> <a href="blocks2dbk.dtd">blocks2dbk.dtd</a>          09-Jan-2012 14:07  2.3K  
+<img src="/icons/text.gif" alt="[TXT]"> <a href="blocks-spec.xml">blocks-spec.xml</a>         09-Jan-2012 14:07  422   
+<hr></pre>
+<address>Apache/2.2.15 (CentOS) Server at docbook.sourceforge.net Port 80</address>
+</body></html>
