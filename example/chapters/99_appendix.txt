@@ -1,0 +1,11 @@
+[appendix]
+== Appendix
+
+Put definitions of things in here.
+
+
+[appendix]
+== Wait, another appendix?
+
+Sure, why not.
+

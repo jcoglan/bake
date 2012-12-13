@@ -1,0 +1,15 @@
+= An book
+:doctype: book
+:author: James Coglan
+
+include::chapters/00_front_matter.txt[]
+
+<<<
+include::chapters/01_chapter_1.txt[]
+
+<<<
+include::chapters/02_chapter_2.txt[]
+
+<<<
+include::chapters/99_appendix.txt[]
+

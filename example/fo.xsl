@@ -11,9 +11,6 @@
      section index. -->
 <xsl:param name="fop1.extensions">1</xsl:param>
 
-<!-- Paper size configuration -->
-<xsl:param name="paper.type">A4</xsl:param>
-
 <!-- If the source contains a <?asciidoc-numbered?> directive, then enable
      automatic section numbering. -->
 <xsl:param name="section.autolabel">
@@ -28,10 +25,40 @@
   <fo:block break-after="page" />
 </xsl:template>
 
-<!-- Font settings -->
-<xsl:param name="title.font.family">Georgia</xsl:param>
-<xsl:param name="body.font.family">FreeSans</xsl:param>
-<xsl:param name="monospace.font.family">'Andale Mono'</xsl:param>
+<!-- Generated text settings - these control generated titles, cross references,
+     and so forth. -->
+<xsl:param name="local.l10n.xml" select="document('')" />
+<l:i18n xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0">
+  <l:l10n language="en">
+    <l:context name="title-numbered">
+      <l:template name="chapter" text="%n. %t" />
+      <l:template name="section" text="%t" />
+    </l:context>
+    <l:gentext key="TableofContents" text="Contents" />
+  </l:l10n>
+</l:i18n>
+
+<!-- Layout and typography -->
+<xsl:param name="paper.type">A4</xsl:param>
+<xsl:param name="body.start.indent">0</xsl:param>
+<xsl:param name="title.font.family">Ubuntu</xsl:param>
+<xsl:param name="body.font.family">serif</xsl:param>
+<xsl:param name="body.font.size">10pt</xsl:param>
+<xsl:param name="body.margin.inner">0</xsl:param>
+<xsl:param name="monospace.font.family">Liberation Mono</xsl:param>
+
+<!-- Formatting for code blocks -->
+<xsl:param name="shade.verbatim" select="1"/>
+<xsl:attribute-set name="shade.verbatim.style">
+  <xsl:attribute name="background-color">transparent</xsl:attribute>
+  <xsl:attribute name="border-left-width">1em</xsl:attribute>
+  <xsl:attribute name="border-left-style">solid</xsl:attribute>
+  <xsl:attribute name="border-left-color">#dcdcdc</xsl:attribute>
+  <xsl:attribute name="font-size">0.8em</xsl:attribute>
+  <xsl:attribute name="line-height">1.4em</xsl:attribute>
+  <xsl:attribute name="margin-left">0</xsl:attribute>
+  <xsl:attribute name="padding-left">2em</xsl:attribute>
+</xsl:attribute-set>
 
 </xsl:stylesheet>
 

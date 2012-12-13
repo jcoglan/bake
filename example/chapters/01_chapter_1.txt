@@ -1,0 +1,23 @@
+== Chapter 1
+
+A great start.
+
+=== Woah, subsection!
+
+[python]
+source~~~~
+include::../code/hello.py[]
+source~~~~
+
+Refinements are a new feature in Ruby 2.0 that have got everyone really confused.
+I hope this paragraph is long enough to reach a second line.
+
+[ruby]
+source~~~~
+include::../code/refinements.rb[]
+source~~~~
+
+==== And a sub-subsection
+
+These AsciiDoc people are really spoiling us, don't you think!
+
