@@ -41,11 +41,11 @@
 <!-- Layout and typography -->
 <xsl:param name="paper.type">A4</xsl:param>
 <xsl:param name="body.start.indent">0</xsl:param>
-<xsl:param name="title.font.family">Ubuntu</xsl:param>
+<xsl:param name="title.font.family">Ubuntu, FreeSans, sans-serif</xsl:param>
 <xsl:param name="body.font.family">serif</xsl:param>
 <xsl:param name="body.font.size">10pt</xsl:param>
 <xsl:param name="body.margin.inner">0</xsl:param>
-<xsl:param name="monospace.font.family">Liberation Mono</xsl:param>
+<xsl:param name="monospace.font.family">Liberation Mono, Courier New, monospace</xsl:param>
 
 <!-- Formatting for code blocks -->
 <xsl:param name="shade.verbatim" select="1"/>
