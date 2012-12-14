@@ -1,16 +1,25 @@
-source  = example/book.txt
-foxsl   = example/fo.xsl
-fopconf = example/fop.xconf
-target  = Book.pdf
-output  = .output
+dir     = example
+source  = $(dir)/book.txt
+foxsl   = $(dir)/fo.xsl
+fopconf = $(dir)/fop.xconf
 
-all: clean
+target  = Book.pdf
+
+output  = .output
+xml     = $(output)/book.xml
+fo      = $(output)/book.fo
+
+$(target): $(fo)
+	fop -c "$(fopconf)" -fo "$(fo)" -pdf "$(target)"
+
+$(fo): $(xml)
+	xsltproc -o "$(fo)" "$(foxsl)" "$(xml)"
+	./scripts/highlight fo "$(fo)" "$(dir)"
+
+$(xml): clean
 	mkdir "$(output)"
-	asciidoc -b docbook -o "$(output)/book.xml" "$(source)"
-	./scripts/highlight docbook "$(output)/book.xml" example
-	xsltproc -o "$(output)/book.fo" "$(foxsl)" "$(output)/book.xml"
-	./scripts/highlight fo "$(output)/book.fo" example
-	fop -c "$(fopconf)" -fo "$(output)/book.fo" -pdf "$(target)"
+	asciidoc -b docbook -o "$(xml)" "$(source)"
+	./scripts/highlight docbook "$(xml)" "$(dir)"
 
 clean:
 	[ -e "$(target)" ] && rm "$(target)" || true
