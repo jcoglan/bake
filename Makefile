@@ -6,20 +6,20 @@ fopconf = $(dir)/fop.xconf
 target  = Book.pdf
 
 output  = .output
-xml     = $(output)/book.xml
+docbook = $(output)/book.xml
 fo      = $(output)/book.fo
 
 $(target): $(fo)
 	fop -c "$(fopconf)" -fo "$(fo)" -pdf "$(target)"
 
-$(fo): $(xml)
-	xsltproc -o "$(fo)" "$(foxsl)" "$(xml)"
+$(fo): $(docbook)
+	xsltproc -o "$(fo)" "$(foxsl)" "$(docbook)"
 	./scripts/highlight fo "$(fo)" "$(dir)"
 
-$(xml): clean
+$(docbook): clean
 	mkdir "$(output)"
-	asciidoc -b docbook -o "$(xml)" "$(source)"
-	./scripts/highlight docbook "$(xml)" "$(dir)"
+	asciidoc -b docbook -o "$(docbook)" "$(source)"
+	./scripts/highlight docbook "$(docbook)" "$(dir)"
 
 clean:
 	[ -e "$(target)" ] && rm "$(target)" || true
