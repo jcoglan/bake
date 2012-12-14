@@ -20,7 +20,7 @@ probably.
 
 ## How does it work?
 
-Run `./build` in this directory. This takes a book written in AsciiDoc, turns it
+Run `make` in this directory. This takes a book written in AsciiDoc, turns it
 into DocBook, turns that into XSL-FO, and turns that into PDF. After generating
 both the DocBook and FO files, it does some post-processing to add syntax
 highlighting using a Python script.
