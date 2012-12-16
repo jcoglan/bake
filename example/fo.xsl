@@ -32,11 +32,14 @@
   <l:l10n language="en">
     <l:context name="title-numbered">
       <l:template name="chapter" text="%n. %t" />
-      <l:template name="section" text="%t" />
+      <l:template name="section" text="%n. %t" />
     </l:context>
     <l:gentext key="TableofContents" text="Contents" />
   </l:l10n>
 </l:i18n>
+
+<!-- Include chapter numbers in section numbers -->
+<xsl:param name="section.label.includes.component.label">1</xsl:param>
 
 <!-- Layout and typography -->
 <xsl:param name="paper.type">A4</xsl:param>
