@@ -21,7 +21,7 @@ def get_theme(type):
         if type in tags: return settings[tags]
     return {}
 
-def highlight_block(block, format):
+def highlight_block(xml, block, format):
     for child in block.childNodes:
         if child.nodeType != Node.TEXT_NODE: continue
         
@@ -40,27 +40,30 @@ def highlight_block(block, format):
         for node in doc.getElementsByTagName('pre')[0].childNodes:
             if node.nodeType == Node.TEXT_NODE:
                 block.insertBefore(xml.createTextNode(node.nodeValue), child)
-                continue
-            
-            theme  = get_theme(node.getAttribute('class'))
-            color  = theme.get('color', '#000')
-            style  = theme.get('style', 'normal')
-            weight = theme.get('weight', 'normal')
-            
-            if format == 'fo':
-                span = xml.createElement('fo:inline')
-                span.setAttribute('color', color)
-                span.setAttribute('font-style', style)
-                span.setAttribute('font-weight', weight)
-            elif format == 'html':
-                span = xml.createElement('span')
-                css = 'color: ' + color + '; font-style: ' + style + '; font-weight: ' + weight
-                span.setAttribute('style', css)
-            
-            span.appendChild(xml.createTextNode(node.childNodes[0].nodeValue))
-            block.insertBefore(span, child)
+            else:
+                span = highlight_node(xml, node, format)
+                block.insertBefore(span, child)
         
         block.removeChild(child)
+
+def highlight_node(xml, node, format):
+    theme  = get_theme(node.getAttribute('class'))
+    color  = theme.get('color', '#000')
+    style  = theme.get('style', 'normal')
+    weight = theme.get('weight', 'normal')
+    
+    if format == 'fo':
+        span = xml.createElement('fo:inline')
+        span.setAttribute('color', color)
+        span.setAttribute('font-style', style)
+        span.setAttribute('font-weight', weight)
+    elif format == 'html':
+        span = xml.createElement('span')
+        css = 'color: ' + color + '; font-style: ' + style + '; font-weight: ' + weight
+        span.setAttribute('style', css)
+    
+    span.appendChild(xml.createTextNode(node.childNodes[0].nodeValue))
+    return span
 
 if format == 'docbook':
     for listing in xml.getElementsByTagName('programlisting'):
@@ -72,12 +75,12 @@ if format == 'docbook':
 
 elif format == 'fo':
     for block in xml.getElementsByTagName('fo:block'):
-        highlight_block(block, 'fo')
+        highlight_block(xml, block, 'fo')
 
 elif format == 'html':
     for block in xml.getElementsByTagName('pre'):
         if (block.getAttribute('class') != 'programlisting'): continue
-        highlight_block(block, 'html')
+        highlight_block(xml, block, 'html')
 
 file = open(target, 'w')
 file.write(xml.toxml().encode('utf-8'))
