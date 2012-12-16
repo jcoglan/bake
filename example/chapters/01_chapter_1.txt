@@ -19,5 +19,6 @@ source~~~~
 
 ==== And a sub-subsection
 
-These AsciiDoc people are really spoiling us, don't you think!
+These AsciiDocfootnote:[http://www.methods.co.nz/asciidoc] people are really
+spoiling us, don't you think!
 
