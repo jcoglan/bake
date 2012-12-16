@@ -20,7 +20,8 @@ $(epub): $(docbook)
 	xsltproc -o "$(epub)" "$(epubxsl)" "$(docbook)"
 	find OEBPS -type f -name '*html' -exec ./scripts/highlight html {} "$(dir)" \;
 	echo "application/epub+zip" > mimetype
-	zip -Xr "$(epub)" mimetype OEBPS META-INF
+	zip -0X "$(epub)" mimetype
+	zip -9XDr "$(epub)" OEBPS META-INF
 	rm -rf mimetype OEBPS META-INF
 
 $(fo): $(docbook)
