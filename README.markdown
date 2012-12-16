@@ -22,6 +22,17 @@ probably.
 
 Run `make` in this directory. This takes a book written in AsciiDoc, turns it
 into DocBook, turns that into XSL-FO, and turns that into PDF. After generating
-both the DocBook and FO files, it does some post-processing to add syntax
-highlighting using a Python script.
+both the DocBook and XSL-FO files, it does some post-processing to add syntax
+highlighting using a Python script. It also generates EPUB from the Docbook
+output, including syntax highlighting.
+
+See `Makefile` for more detail. The files in `example` work as follows:
+
+* `book.txt`: This is the root file for the book's content, written in AsciiDoc.
+* `epub.xsl`: Stylesheet that controls the generation of EPUB from DocBook.
+* `fo.xsl`: Controls generation of XSL-FO from DocBook, which is turned into PDF.
+* `fop.xconf`: Configures `fop`, which turns XSL-FO into a PDF. Tells it where
+  your fonts are, and so on.
+* `syntax.py`: Formatting data for Pygments, which is used for syntax
+  highlighting.
 
