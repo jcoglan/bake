@@ -40,14 +40,25 @@
 
 <!-- Include chapter numbers in section numbers -->
 <xsl:param name="section.label.includes.component.label">1</xsl:param>
+<xsl:param name="section.autolabel.max.depth">1</xsl:param>
 
 <!-- Layout and typography -->
 <xsl:param name="paper.type">A4</xsl:param>
-<xsl:param name="body.start.indent">0</xsl:param>
 <xsl:param name="title.font.family">Ubuntu, FreeSans, sans-serif</xsl:param>
+
+<xsl:attribute-set name="section.title.level1.properties">
+  <xsl:attribute name="font-size">1.6em</xsl:attribute>
+</xsl:attribute-set>
+<xsl:attribute-set name="section.title.level2.properties">
+  <xsl:attribute name="font-size">1.4em</xsl:attribute>
+  <xsl:attribute name="font-weight">normal</xsl:attribute>
+</xsl:attribute-set>
+
 <xsl:param name="body.font.family">serif</xsl:param>
 <xsl:param name="body.font.size">10pt</xsl:param>
 <xsl:param name="body.margin.inner">0</xsl:param>
+<xsl:param name="body.start.indent">0</xsl:param>
+
 <xsl:param name="monospace.font.family">Liberation Mono, Courier New, monospace</xsl:param>
 
 <!-- Formatting for code blocks -->
