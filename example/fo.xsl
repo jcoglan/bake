@@ -6,41 +6,11 @@
 
 <!-- Start with the DocBook->FO rules from the DocBook XSL library -->
 <xsl:import href="../docbook-xsl-1.77.1/fo/docbook.xsl" />
+<xsl:import href="common.xsl" />
 
 <!-- Enable extensions. Among other things, this gives the PDF a browsable
      section index. -->
 <xsl:param name="fop1.extensions">1</xsl:param>
-
-<!-- If the source contains a <?asciidoc-numbered?> directive, then enable
-     automatic section numbering. -->
-<xsl:param name="section.autolabel">
-  <xsl:choose>
-    <xsl:when test="/processing-instruction('asciidoc-numbered')">1</xsl:when>
-    <xsl:otherwise>0</xsl:otherwise>
-  </xsl:choose>
-</xsl:param>
-
-<!-- Convert asciidoc page breaks into FO equivalents -->
-<xsl:template match="processing-instruction('asciidoc-pagebreak')">                                                                                                                               
-  <fo:block break-after="page" />
-</xsl:template>
-
-<!-- Generated text settings - these control generated titles, cross references,
-     and so forth. -->
-<xsl:param name="local.l10n.xml" select="document('')" />
-<l:i18n xmlns:l="http://docbook.sourceforge.net/xmlns/l10n/1.0">
-  <l:l10n language="en">
-    <l:context name="title-numbered">
-      <l:template name="chapter" text="%n. %t" />
-      <l:template name="section" text="%n. %t" />
-    </l:context>
-    <l:gentext key="TableofContents" text="Contents" />
-  </l:l10n>
-</l:i18n>
-
-<!-- Include chapter numbers in section numbers -->
-<xsl:param name="section.label.includes.component.label">1</xsl:param>
-<xsl:param name="section.autolabel.max.depth">1</xsl:param>
 
 <!-- Layout and typography -->
 <xsl:param name="paper.type">A4</xsl:param>

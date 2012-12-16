@@ -29,6 +29,7 @@ output, including syntax highlighting.
 See `Makefile` for more detail. The files in `example` work as follows:
 
 * `book.txt`: This is the root file for the book's content, written in AsciiDoc.
+* `common.xsl`: Stylesheet with rules common to EPUB and XSL-FO output.
 * `epub.xsl`: Stylesheet that controls the generation of EPUB from DocBook.
 * `fo.xsl`: Controls generation of XSL-FO from DocBook, which is turned into PDF.
 * `fop.xconf`: Configures `fop`, which turns XSL-FO into a PDF. Tells it where
