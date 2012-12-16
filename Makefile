@@ -11,7 +11,9 @@ output  = .output
 docbook = $(output)/book.xml
 fo      = $(output)/book.fo
 
-all: $(pdf) $(epub)
+all: pdf epub
+pdf: $(pdf)
+epub: $(epub)
 
 $(pdf): $(fo)
 	fop -c "$(fopconf)" -fo "$(fo)" -pdf "$(pdf)"
