@@ -5,7 +5,7 @@
                 version="1.0">
 
 <!-- Start with the DocBook->EPUB rules from the DocBook XSL library -->
-<xsl:import href="../docbook-xsl-1.77.1/epub/docbook.xsl" />
+<xsl:import href="../docbook-xsl-1.78.1/epub/docbook.xsl" />
 <xsl:import href="common.xsl" />
 
 </xsl:stylesheet>

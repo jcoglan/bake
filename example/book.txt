@@ -1,6 +1,7 @@
 = An book
 :doctype: book
 :author: James Coglan
+:email: james@jcoglan.com
 
 include::chapters/00_front_matter.txt[]
 

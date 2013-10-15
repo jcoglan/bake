@@ -5,7 +5,7 @@
                 version="1.0">
 
 <!-- Start with the DocBook->FO rules from the DocBook XSL library -->
-<xsl:import href="../docbook-xsl-1.77.1/fo/docbook.xsl" />
+<xsl:import href="../docbook-xsl-1.78.1/fo/docbook.xsl" />
 <xsl:import href="common.xsl" />
 
 <!-- Enable extensions. Among other things, this gives the PDF a browsable

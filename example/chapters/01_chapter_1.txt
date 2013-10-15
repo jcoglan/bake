@@ -1,24 +1,29 @@
-== Chapter 1
+== The first chapter
 
 A great start.
 
 === Woah, subsection!
 
-[python]
-source~~~~
+[source,python]
 include::../code/hello.py[]
-source~~~~
 
 Refinements are a new feature in Ruby 2.0 that have got everyone really confused.
-I hope this paragraph is long enough to reach a second line.
+I hope this paragraph is long enough to reach a second line. Otherwise, I'm
+going to have to write a whole bunch of weird stuff just to make this text be
+long enough. You should read <<taoup>>.
 
 [ruby]
 source~~~~
 include::../code/refinements.rb[]
 source~~~~
 
+[[yeah]]
 ==== And a sub-subsection
 
 These AsciiDocfootnote:[http://www.methods.co.nz/asciidoc] people are really
 spoiling us, don't you think!
+
+[bibliography]
+- [[[taoup]]] Eric Steven Raymond. 'The Art of UNIX Programming'. Addison-Wesley. ISBN 0-13-142901-9.
+- [[[walsh-muellner]]] Norman Walsh & Leonard Muellner.  'DocBook - The Definitive Guide'. O'Reilly & Associates.  1999. ISBN 1-56592-580-7.
 
