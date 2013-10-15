@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import re
 from xml.dom.minidom import Node, parse, parseString
@@ -24,34 +25,38 @@ def get_theme(type):
 def highlight_block(xml, block, format):
     for child in block.childNodes:
         if child.nodeType != Node.TEXT_NODE: continue
-        
+
         pattern = '^#:highlight: (\S+)\n'
         code    = child.nodeValue
         match   = re.search(pattern, code)
-        
+
         if match == None: continue
-        
+
         lexer     = get_lexer_by_name(match.group(1))
         formatter = get_formatter_by_name('html')
         code      = re.sub(pattern, '', code)
-        
+
         doc = parseString(highlight(code, lexer, formatter))
-        
+
         for node in doc.getElementsByTagName('pre')[0].childNodes:
             if node.nodeType == Node.TEXT_NODE:
                 block.insertBefore(xml.createTextNode(node.nodeValue), child)
             else:
                 span = highlight_node(xml, node, format)
                 block.insertBefore(span, child)
-        
+
         block.removeChild(child)
 
 def highlight_node(xml, node, format):
-    theme  = get_theme(node.getAttribute('class'))
+    klass  = node.getAttribute('class')
+    text   = node.childNodes[0].nodeValue
+    theme  = get_theme(klass)
     color  = theme.get('color', '#000')
     style  = theme.get('style', 'normal')
     weight = theme.get('weight', 'normal')
-    
+
+    if os.environ.get('DEBUG'): print (klass, text, theme)
+
     if format == 'fo':
         span = xml.createElement('fo:inline')
         span.setAttribute('color', color)
@@ -61,15 +66,27 @@ def highlight_node(xml, node, format):
         span = xml.createElement('span')
         css = 'color: ' + color + '; font-style: ' + style + '; font-weight: ' + weight
         span.setAttribute('style', css)
-    
-    span.appendChild(xml.createTextNode(node.childNodes[0].nodeValue))
+
+    span.appendChild(xml.createTextNode(text))
     return span
 
 if format == 'docbook':
+    for para in xml.getElementsByTagName('formalpara'):
+        listing = para.getElementsByTagName('programlisting')[0]
+        title   = para.getElementsByTagName('title')[0]
+        parent  = para.parentNode
+        figure  = xml.createElement('figure')
+
+        parent.insertBefore(figure, para)
+        figure.appendChild(title)
+        figure.appendChild(listing)
+        parent.removeChild(para)
+
     for listing in xml.getElementsByTagName('programlisting'):
         lang = listing.getAttribute('language')
         code = listing.childNodes[0].nodeValue
         text = xml.createTextNode('#:highlight: ' + lang + '\n' + code)
+
         listing.removeChild(listing.childNodes[0])
         listing.appendChild(text)
 

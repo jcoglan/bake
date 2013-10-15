@@ -35,5 +35,8 @@
 <xsl:param name="section.label.includes.component.label">1</xsl:param>
 <xsl:param name="section.autolabel.max.depth">2</xsl:param>
 
+<!-- Disable hyphenation -->
+<xsl:param name="hyphenate">false</xsl:param>
+
 </xsl:stylesheet>
 

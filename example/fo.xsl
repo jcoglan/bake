@@ -25,11 +25,23 @@
 </xsl:attribute-set>
 
 <xsl:param name="body.font.family">serif</xsl:param>
-<xsl:param name="body.font.size">10pt</xsl:param>
+<xsl:param name="body.font.size">11pt</xsl:param>
 <xsl:param name="body.margin.inner">0</xsl:param>
 <xsl:param name="body.start.indent">0</xsl:param>
 
-<xsl:param name="monospace.font.family">Liberation Mono, Courier New, monospace</xsl:param>
+<xsl:attribute-set name="monospace.properties">
+  <xsl:attribute name="font-family">Liberation Mono, Courier New, monospace</xsl:attribute>
+  <xsl:attribute name="font-size">0.8em</xsl:attribute>
+</xsl:attribute-set>
+<xsl:attribute-set name="monospace.verbatim.properties">
+  <xsl:attribute name="font-size">0.7em</xsl:attribute>
+</xsl:attribute-set>
+
+<xsl:attribute-set name="formal.title.properties">
+  <xsl:attribute name="font-size">0.8em</xsl:attribute>
+  <xsl:attribute name="font-style">italic</xsl:attribute>
+  <xsl:attribute name="font-weight">normal</xsl:attribute>
+</xsl:attribute-set>
 
 <!-- Formatting for code blocks -->
 <xsl:param name="shade.verbatim" select="1"/>
@@ -38,7 +50,6 @@
   <xsl:attribute name="border-left-width">1em</xsl:attribute>
   <xsl:attribute name="border-left-style">solid</xsl:attribute>
   <xsl:attribute name="border-left-color">#dcdcdc</xsl:attribute>
-  <xsl:attribute name="font-size">0.8em</xsl:attribute>
   <xsl:attribute name="line-height">1.4em</xsl:attribute>
   <xsl:attribute name="margin-left">0</xsl:attribute>
   <xsl:attribute name="padding-left">2em</xsl:attribute>
