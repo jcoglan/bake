@@ -61,7 +61,7 @@ particular:
 * `syntax.py`: Formatting data for Pygments, which is used for syntax
    highlighting.
 
-To make sure the code the appears in the book works correctly, it is included
+To make sure the code that appears in the book works correctly, it is included
 from the files in `code` (which are checked by `make test`), rather than being
 written inline with the source text. AsciiDoc uses the following syntax for
 doing this:
