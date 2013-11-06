@@ -3,7 +3,7 @@
 This repo contains the build framework I used to write [JavaScript Testing
 Recipes](http://jstesting.jcoglan.com/). It converts the source text written in
 [AsciiDoc](http://www.methods.co.nz/asciidoc/) into EPUB, MOBI and PDF formats,
-checks all the example code, and gives you a word count. I includes a cover
+checks all the example code, and gives you a word count. It includes a cover
 image for each format, and has some customisation of the print formatting for
 the PDF. The main tasks are:
 
