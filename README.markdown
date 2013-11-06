@@ -1,39 +1,78 @@
 # How to build a book
 
-I'm trying to figure out how to build a book using plain text and free software.
-After lots of annoying questions and some generous help from Chris Strom and Tom
-Stuart, I'm getting there. I've been poking around in
-[git-scribe](https://github.com/schacon/git-scribe) and looking at the
-underlying tools it's using so I have a better grasp of how to customize things.
+This repo contains the build framework I used to write [JavaScript Testing
+Recipes](http://jstesting.jcoglan.com/). It converts the source text written in
+[AsciiDoc](http://www.methods.co.nz/asciidoc/) into EPUB, MOBI and PDF formats,
+checks all the example code, and gives you a word count. I includes a cover
+image for each format, and has some customisation of the print formatting for
+the PDF. The main tasks are:
+
+* `make test`: runs all the tests for the example code
+* `make book`: compiles the source text to all the publishing formats
+* `make words`: prints a word count for the source text
+* `make`: runs all the above tasks
+
+I'm tremendously grateful to Chris Strom and Tom Stuart, who answered a lot of
+my initial questions, and to the authors of
+[git-scribe](https://github.com/schacon/git-scribe), which I cribbed some of my
+toolchain from.
 
 
 ## What do I need?
 
-You need these programs, which you can get from apt-get or homebrew or wherever,
-probably.
+You need these programs, which if you're using Ubuntu you can get using `apt-get
+install`.
 
 * `asciidoc`
-* `xsltproc`
-* `python` and `python-pygments`
 * `fop`
+* `kindlegen` (download from Amazon)
+* `make`
+* `python` and `python-pygments`
+* `xsltproc`
+
+The example code that's run by `make test` also requires
+[PhantomJS](http://phantomjs.org/) and [Node.js](http://nodejs.org/).
 
 
 ## How does it work?
 
-Run `make` in this directory. This takes a book written in AsciiDoc, turns it
-into DocBook, turns that into XSL-FO, and turns that into PDF. After generating
-both the DocBook and XSL-FO files, it does some post-processing to add syntax
-highlighting using a Python script. It also generates EPUB from the Docbook
-output, including syntax highlighting.
+When you run `make` in this directory, the following things happen:
 
-See `Makefile` for more detail. The files in `example` work as follows:
+* All the files named `browser.html` under `code/browser` are run via PhantomJS
+* All the files named `node.js` under `code/node` are run via Node.js
+* The AsciiDoc source file `book/book.txt` is compiled to DocBook XML
+* A Python script applies highlighting annotations to the XML
+* This XML is converted into XSL-FO and EPUB using the DocBook XSLT stylesheets
+* A Python script applies syntax highlighting to the XSL-FO and EPUB files
+* The XSL-FO file is compiled into a PDF
+* The EPUB files are bundled into a zip archive and converted to MOBI
+
+The book's formatting is controlled by the files in the `book` directory, in
+particular:
 
 * `book.txt`: This is the root file for the book's content, written in AsciiDoc.
+* `book-docinfo.xml`: Contains additional XML that specifies the cover image.
 * `common.xsl`: Stylesheet with rules common to EPUB and XSL-FO output.
 * `epub.xsl`: Stylesheet that controls the generation of EPUB from DocBook.
-* `fo.xsl`: Controls generation of XSL-FO from DocBook, which is turned into PDF.
+* `fo.xsl`: Controls generation of XSL-FO from DocBook, which is turned into
+  PDF.
 * `fop.xconf`: Configures `fop`, which turns XSL-FO into a PDF. Tells it where
   your fonts are, and so on.
 * `syntax.py`: Formatting data for Pygments, which is used for syntax
-  highlighting.
+   highlighting.
+
+To make sure the code the appears in the book works correctly, it is included
+from the files in `code` (which are checked by `make test`), rather than being
+written inline with the source text. AsciiDoc uses the following syntax for
+doing this:
+
+```
+[source,html]
+----
+include::../../code/browser/hello_world/browser.html[]
+----
+```
+
+The AsciiDoc language annotation is then used by Pygments to highlight the
+imported code.
 

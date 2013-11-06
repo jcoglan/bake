@@ -1,0 +1,143 @@
+[[currying]]
+Currying
+--------
+
+[quote, Wikipedia]
+____
+In mathematics and computer science, currying is the technique of transforming a
+function that takes multiple arguments (or a tuple of arguments) in such a way
+that it can be called as a chain of functions, each with a single argument
+(partial application).
+____
+
+In some languages, notably Haskellfootnote:[http://www.haskell.org/], all
+functions are curried by default: if you call a function with fewer arguments
+than it expects, you get back a function that takes the rest of the arguments.
+In JavaScript, we don't have this feature built into the language but we can
+mimic it using closures.
+
+Say we have a function that adds three numbers:
+
+[source,js]
+----
+var add = function(a, b, c) {
+  return a + b + c
+}
+----
+
+We can convert it into `curried' form by turning it into a set of nested
+functions that take each argument in turn:
+
+[source,js]
+----
+var add = function(a) {
+  return function(b) {
+    return function(c) {
+      return a + b + c
+    }
+  }
+}
+----
+
+When we call this function, each extra argument we pass in returns us a new
+function, until we pass in all the required arguments and we get a meaningful
+result out.
+
+[source,text]
+----
+> add(1)
+[Function]
+> add(1)(2)
+[Function]
+> add(1)(2)(3)
+6
+----
+
+Continuables
+~~~~~~~~~~~~
+
+This idea is used to make `continuables', a particular style of doing
+callback-based asynchronous code in JavaScript. The common way to do callbacks
+in Node is to pass a callback after the `logical' arguments to a function, which
+in turn invokes the callback with an error and a return value (the error is
++null+ in the successful case). For example an async addition function might
+look like this:
+
+[source,js]
+----
+var asyncAdd = function(a, b, c, callback) {
+  setTimeout(function() {
+    var result = a + b + c
+    callback(null, result)
+  }, 10)
+}
+----
+
+We'd call this function like so:
+
+[source,js]
+----
+asyncAdd(1, 2, 3, function(error, result) {
+  // ...
+})
+----
+
+The problem with this is that it mixes the logical arguments to a function with
+control-flow concerns, and it means the async function doesn't return a useful
+value to represent the computation. What continuables do is separate the logic
+arguments from the callback by partially curring the function, like this:
+
+[source,js]
+----
+var asyncAdd = function(a, b, c) {
+  return function(callback) {
+    setTimeout(function() {
+      var result = a + b + c
+      callback(null, result)
+    }, 10)
+  }
+}
+----
+
+We would call this continuable function like this:
+
+[source,js]
+----
+asyncAdd(1, 2, 3)(function(error, result) {
+  // ...
+})
+----
+
+This doesn't look like a big difference, but it means that all continuable
+functions return something with a uniform interface: a function that takes a
+callback. You can think of continuable functions as generating tasks that you
+can execute without needing to know all the arguments that went into the task.
++asyncAdd(1, 2, 3)+ returns a function that, when executed, computes `1 + 2 + 3`
+and yields the result to your callback.
+
+This uniformity means you can use continuables to generate inputs to various
+functions in the Async module to string asynchronous functions together.
+
+Converting functions into continuables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you already have a set of functions that use `traditional' callback APIs, you
+don't need to rewrite them to take advantage of continuables. You can actually
+use a little
+metaprogrammingfootnote:[http://en.wikipedia.org/wiki/Metaprogramming] to
+convert a callback function into a continuable. In <<continuable_steps>> we used
+a helper module to convert our existing helper functions to conitnuables; the
+source code is listed below.
+
++Curry.continuable()+ takes a function and returns a continuable-ified version
+of it, or rather, a function that wraps the original in a continuable interface.
++Curry.object()+ is a little time-saving function that takes an object and
+returns a copy of it with all the methods converted to continuable style.
+
+[[curry_module]]
+.+node/async_steps/curry.js+
+[source,js]
+----
+include::../../code/node/async_steps/curry.js[]
+----
+

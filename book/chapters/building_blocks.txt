@@ -1,0 +1,190 @@
+Building blocks
+---------------
+
+Before we can start discussing how to test real programs, we need to get to know
+our tools -- the ingredients that go into writing automated tests. There are a
+lot of great tools for testing JavaScript out there, but rather than focus on
+any of them in particular let's focus on what they have in common: what are the
+underlying concepts that all these frameworks are based on?
+
+What is automated testing?
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An automated test suite is simply a program that tells you whether another
+program does its job correctly. If that sounds a little weird at first, think of
+it like this: you've probably done a lot of manual testing in the past,
+interacting with websites and checking everything works. A lot of that was
+probably boring, repetitive, time-consuming work. Well, computers are great at
+boring, repetitive, time-consuming work, and we can write programs that do a lot
+of this work for us.
+
+A test suite is a program that pokes at your application and makes sure it does
+the right thing, only because it's a program and not a human process, we can run
+it whenever we like and it'll run through exactly the same steps. It will also
+do this much _faster_ than a person can, saving you a lot of time over the life
+of a project.
+
+Test suites typically work by calling functions within the application, and
+checking that these functions return the right values, or have the right side
+effects. *(TODO: explain black-box web testing, which doesn't work like this)*
+Imagine we have a function that adds two numbers together:
+
+.A simple +add()+ function
+[source,js]
+----
+var add = function(x, y) {
+  return x + y
+}
+----
+
+It's a silly example, and it's `obviously' correctfootnote:[Where programming
+is concerned, there is no such thing as obviously correct. If you find yourself
+thinking this, you're probably staring right at the source of a bug.], but let's
+say we want an automated test for this. The way most testing frameworks work, we
+do this by giving a few example inputs to the function and checking they produce
+the right output, something like:
+
+.Assertions for the +add()+ function
+[source,js]
+----
+assertEqual( 2, add(1, 1) )
+assertEqual( 4, add(2, 2) )
+assertEqual( 8, add(9, -1) )
+----
+
+Some frameworks put the expected (hard-coded) value first, and the actual
+(expression-based) value second, while others do it the other way around. See
+<<assertions>> for further explanation.
+
+We want to be able to run these assertions and find out whether the +add()+
+function works. The simplest implementation of +assertEqual()+ therefore is one
+that throws an error if its inputs are not equal.
+
+.A possible +assertEqual()+ implementation
+[source,js]
+----
+var assertEqual = function(expected, actual) {
+  if (expected !== actual) {
+    throw new Error('Expected ' + expected + ', got ' + actual)
+  }
+}
+----
+
+Sure enough, if we paste the +add()+ and +assertEqual()+ functions into a
+browser console and try out some examples, an error is thrown if we supply a
+deliberately wrong value:
+
+[source,text]
+----
+> assertEqual( 5, add(2, 2) )
+Error: expected 5, got 4
+----
+
+That's really all an automated test suite is: a program that states certain
+assumptions about your program, calls functions and tells you if these
+assumptions aren't true.
+
+[[testing_frameworks]]
+Testing frameworks
+~~~~~~~~~~~~~~~~~~
+
+In practise, almost no-one writes their own assertion functions like we have
+above. Except for very small projects, having your test suite be a single script
+with a lot of assertions and no structure doesn't tend to scale well and becomes
+hard to maintain. People like to organise their assertions into related groups,
+apply shared setup functions to them, run subsets of the tests rather than the
+whole suite, and get pretty output that's suitable for their platform rather
+than looking for errors in a console.
+
+This is what _testing frameworks_ do. They provide a way to organise your tests
+into groups, run them either together or individually, and get helpful output,
+sometimes including machine-readable output like
+TAPfootnote:[http://testanything.org/] or XML.
+
+There are lots of popular testing frameworks for JavaScript, and while they all
+have different approaches to performing the above tasks, and different features
+sets and APIs, they all do basically the same thing.
+Jasminefootnote:[http://pivotal.github.io/jasmine/],
+QUnitfootnote:[http://qunitjs.com/], and
+Mochafootnote:[http://visionmedia.github.io/mocha/] seem to be among the current
+favourites, and are all extensively documented, blogged and discussed online. I
+encourage you to try them all out and see which one you're happiest with.
+
+For this book I'm going to use `jstest`footnote:[http://jstest.jcoglan.com/].
+Since I wrote this framework, I am of course biased, but it looks similar to
+various other tools and is based on many of the same concepts. It has the nice
+property that it's a single JavaScript file that works on any JS platform out of
+the box, so we don't have to waste time on getting tools set up before we can
+really get our teeth into writing some tests.
+
+You will find analogies to almost everything in this book in every other testing
+framework, and over the course of your career you will probably end up using
+several of them, so try to focus on the underlying concepts rather than the
+particular API of the tools we're using.
+
+[[hello_world]]
+Hello, world!
+~~~~~~~~~~~~~
+
+When you pick up a new framework, it's helpful to write a `hello world' test
+with it so you know how to set it up. Here's a quick example for +jstest+, which
+you can find in +browser/hello_world/browser.html+. (See <<examples>> for
+instructions on running the bundled code examples.)
+
+.+browser/hello_world/browser.html+
+[source,html]
+----
+include::../../code/browser/hello_world/browser.html[]
+----
+
+There is very little going on here. We have a bare-bones HTML document that
+loads +jstest.js+ using a +<script>+ tag, defines a test using
++JS.Test.describe()+, then runs the tests using +JS.Test.autorun()+. That final
+command runs all the tests we've defined -- just one in this case -- and
+displays the results in a format suitable for the current environment.
+
+Don't worry about the syntax of the test itself, we'll get to that shortly.
+
+If you open this example in a browser, you'll see the result of the test as
+shown in <<browser_display>>: one test, with one assertion, and no failures or
+errors. You can click on the test names to see their contents, and click the
+little arrows on the left to run only that group or test.
+
+[[browser_display]]
+.`Hello world' in the browser
+image::book/images/hello_world.png[width=360]
+
+If you're a Node.js user, you should also familiarise yourself with what `hello
+world' looks like on that platform. It's really the same process that we used in
+the browser, only instead of a +<script>+ tag we use the +require()+ function to
+load the framework. After that the code is exactly the same.
+
+.+node/hello_world/node.js+
+[source,js]
+----
+include::../../code/node/hello_world/node.js[]
+----
+
+If you run this file with Node, you'll see the result of the test in your
+terminal. The +JS.Test.autorun()+ function detects which platform you're using
+and displays the test results in an appropriate way.
+
+.`Hello world' in the terminal
+----
+$ node node/hello_world/node.js
+Loaded suite: Hello, world!
+
+.
+
+Finished in 0.007 seconds
+1 test, 1 assertion, 0 failures, 0 errors
+----
+
+These examples should demonstrate that a test framework is really no different
+to any other JavaScript module you're used to using; you load it in the usual
+way and use its API to tell it what to do. The only thing that will change as
+our examples get more involved is that we'll also be loading our application
+code from other files, and the tests may move into their own files too rather
+than being inline in the HTML document or Node script. In fact, keeping the
+tests in separate files makes it easy to run them on Node _or_ in the browser,
+if you're trying to write cross-platform code!

@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+var path    = require('path'),
+    nopt    = require('nopt'),
+    jstest  = require('../jstest').Test,
+
+    options = { format: String
+              , test:   Array
+              , help:   Boolean
+              },
+
+    shorts  = { f: '--format'
+              , t: '--test'
+              , h: '--help'
+              },
+
+    params  = nopt(options, shorts)
+
+if (params.help) {
+  console.log('\nUsage: jstest [OPTIONS] file1 [file2 ...]\n')
+  console.log('Options:  -f, --format : output format')
+  console.log('          -t, --test   : name of the test(s) to run')
+  console.log('')
+  process.exit()
+}
+
+params.argv.remain.forEach(function(file) {
+  require(path.resolve(file))
+})
+
+jstest.autorun(params)
+

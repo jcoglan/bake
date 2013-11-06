@@ -22,6 +22,24 @@ def get_theme(type):
         if type in tags: return settings[tags]
     return {}
 
+def fix_formalpara(para):
+    listing = para.getElementsByTagName('programlisting')
+    if len(listing) == 0:
+        listing = para.getElementsByTagName('screen')
+
+    listing = listing[0]
+    title   = para.getElementsByTagName('title')[0]
+    parent  = para.parentNode
+    figure  = xml.createElement('figure')
+
+    id = para.getAttribute('id')
+    if id: figure.setAttribute('id', id)
+
+    parent.insertBefore(figure, para)
+    figure.appendChild(title)
+    figure.appendChild(listing)
+    parent.removeChild(para)
+
 def highlight_block(xml, block, format):
     for child in block.childNodes:
         if child.nodeType != Node.TEXT_NODE: continue
@@ -72,22 +90,7 @@ def highlight_node(xml, node, format):
 
 if format == 'docbook':
     for para in xml.getElementsByTagName('formalpara'):
-        listing = para.getElementsByTagName('programlisting')
-        if len(listing) == 0:
-            listing = para.getElementsByTagName('screen')
-
-        listing = listing[0]
-        title   = para.getElementsByTagName('title')[0]
-        parent  = para.parentNode
-        figure  = xml.createElement('figure')
-
-        id = para.getAttribute('id')
-        if id: figure.setAttribute('id', id)
-
-        parent.insertBefore(figure, para)
-        figure.appendChild(title)
-        figure.appendChild(listing)
-        parent.removeChild(para)
+        fix_formalpara(para)
 
     for listing in xml.getElementsByTagName('programlisting'):
         lang = listing.getAttribute('language')

@@ -1,5 +1,6 @@
 .output
 *.epub
+*.mobi
 *.pdf
 *.pyc
 

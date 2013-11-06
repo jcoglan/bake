@@ -1,0 +1,13 @@
+JavaScript Testing Recipes
+==========================
+:doctype: book
+:author: James Coglan
+:email: james@jcoglan.com
+
+<<<
+include::chapters/building_blocks.txt[]
+
+<<<
+[appendix]
+include::chapters/currying.txt[]
+
