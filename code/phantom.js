@@ -1,9 +1,9 @@
 // This is a PhantomJS script that can run any of the browser-based examples
 // and display the results. You can run it like so:
 //
-//     $ phantomjs phantom.js browser/hello_world/browser.html
+//     $ phantomjs phantom.js browser/hello_world/test.html
 //
-// Run it with any of the `browser.html` files in this tree. You can download
+// Run it with any of the `test.html` files in this tree. You can download
 // PhantomJS from http://phantomjs.org/.
 
 var system = require("system"),

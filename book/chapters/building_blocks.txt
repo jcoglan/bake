@@ -7,8 +7,8 @@ lot of great tools for testing JavaScript out there, but rather than focus on
 any of them in particular let's focus on what they have in common: what are the
 underlying concepts that all these frameworks are based on?
 
-What is automated testing?
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+What is an automated test suite?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An automated test suite is simply a program that tells you whether another
 program does its job correctly. If that sounds a little weird at first, think of
@@ -37,11 +37,11 @@ var add = function(x, y) {
 }
 ----
 
-It's a silly example, and it's `obviously' correctfootnote:[Where programming
-is concerned, there is no such thing as obviously correct. If you find yourself
+It's a silly example, and it's `obviously' correctfootnote:[Where programming is
+concerned, there is no such thing as obviously correct. If you find yourself
 thinking this, you're probably staring right at the source of a bug.], but let's
-say we want an automated test for this. The way most testing frameworks work, we
-do this by giving a few example inputs to the function and checking they produce
+say we want an automated test for this. In most most testing frameworks, we do
+this by giving a few example inputs to the function and checking they produce
 the right output, something like:
 
 .Assertions for the +add()+ function
@@ -65,7 +65,7 @@ that throws an error if its inputs are not equal.
 ----
 var assertEqual = function(expected, actual) {
   if (expected !== actual) {
-    throw new Error('Expected ' + expected + ', got ' + actual)
+    throw new Error("Expected " + expected + ", got " + actual)
   }
 }
 ----
@@ -88,13 +88,14 @@ assumptions aren't true.
 Testing frameworks
 ~~~~~~~~~~~~~~~~~~
 
-In practise, almost no-one writes their own assertion functions like we have
+In practice, almost no-one writes their own assertion functions like we have
 above. Except for very small projects, having your test suite be a single script
-with a lot of assertions and no structure doesn't tend to scale well and becomes
-hard to maintain. People like to organise their assertions into related groups,
-apply shared setup functions to them, run subsets of the tests rather than the
-whole suite, and get pretty output that's suitable for their platform rather
-than looking for errors in a console.
+with a lot of assertions and no structure tends to scale poorly and becomes hard
+to maintain. People like to organise their assertions into related groups, apply
+shared setup functions to them, run subsets of the tests rather than the whole
+suite, and get pretty output that's suitable for their platform, for example
+some clearly presented results on a web page instead of some log messages in the
+console.
 
 This is what _testing frameworks_ do. They provide a way to organise your tests
 into groups, run them either together or individually, and get helpful output,
@@ -106,7 +107,7 @@ have different approaches to performing the above tasks, and different features
 sets and APIs, they all do basically the same thing.
 Jasminefootnote:[http://pivotal.github.io/jasmine/],
 QUnitfootnote:[http://qunitjs.com/], and
-Mochafootnote:[http://visionmedia.github.io/mocha/] seem to be among the current
+Mochafootnote:[http://visionmedia.github.io/mocha/] are among the current
 favourites, and are all extensively documented, blogged and discussed online. I
 encourage you to try them all out and see which one you're happiest with.
 
@@ -128,13 +129,13 @@ Hello, world!
 
 When you pick up a new framework, it's helpful to write a `hello world' test
 with it so you know how to set it up. Here's a quick example for +jstest+, which
-you can find in +browser/hello_world/browser.html+. (See <<examples>> for
+you can find in +browser/hello_world/test.html+. (See <<examples>> for
 instructions on running the bundled code examples.)
 
-.+browser/hello_world/browser.html+
+.+browser/hello_world/test.html+
 [source,html]
 ----
-include::../../code/browser/hello_world/browser.html[]
+include::../../code/browser/hello_world/test.html[]
 ----
 
 There is very little going on here. We have a bare-bones HTML document that
@@ -154,15 +155,15 @@ little arrows on the left to run only that group or test.
 .`Hello world' in the browser
 image::book/images/hello_world.png[width=360]
 
-If you're a Node.js user, you should also familiarise yourself with what `hello
+If you're a Node user, you should also familiarise yourself with what `hello
 world' looks like on that platform. It's really the same process that we used in
 the browser, only instead of a +<script>+ tag we use the +require()+ function to
 load the framework. After that the code is exactly the same.
 
-.+node/hello_world/node.js+
+.+node/hello_world/test.js+
 [source,js]
 ----
-include::../../code/node/hello_world/node.js[]
+include::../../code/node/hello_world/test.js[]
 ----
 
 If you run this file with Node, you'll see the result of the test in your
@@ -171,7 +172,7 @@ and displays the test results in an appropriate way.
 
 .`Hello world' in the terminal
 ----
-$ node node/hello_world/node.js
+$ node node/hello_world/test.js
 Loaded suite: Hello, world!
 
 .
@@ -181,7 +182,7 @@ Finished in 0.007 seconds
 ----
 
 These examples should demonstrate that a test framework is really no different
-to any other JavaScript module you're used to using; you load it in the usual
+from any other JavaScript module you're used to using; you load it in the usual
 way and use its API to tell it what to do. The only thing that will change as
 our examples get more involved is that we'll also be loading our application
 code from other files, and the tests may move into their own files too rather

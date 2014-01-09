@@ -85,7 +85,7 @@ asyncAdd(1, 2, 3, function(error, result) {
 The problem with this is that it mixes the logical arguments to a function with
 control-flow concerns, and it means the async function doesn't return a useful
 value to represent the computation. What continuables do is separate the logic
-arguments from the callback by partially curring the function, like this:
+arguments from the callback by partially currying the function, like this:
 
 [source,js]
 ----
@@ -126,7 +126,7 @@ don't need to rewrite them to take advantage of continuables. You can actually
 use a little
 metaprogrammingfootnote:[http://en.wikipedia.org/wiki/Metaprogramming] to
 convert a callback function into a continuable. In <<continuable_steps>> we used
-a helper module to convert our existing helper functions to conitnuables; the
+a helper module to convert our existing helper functions to continuables; the
 source code is listed below.
 
 +Curry.continuable()+ takes a function and returns a continuable-ified version

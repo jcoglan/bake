@@ -9,6 +9,7 @@ title   = example-book
 pdf     = $(title).pdf
 epub    = $(title).epub
 mobi    = $(title).mobi
+zip     = $(title).zip
 
 output  = .output
 docbook = $(output)/book.xml
@@ -16,14 +17,27 @@ fo      = $(output)/book.fo
 
 all: test book
 book: pdf epub mobi words
-pdf: $(pdf)
+dist: $(zip)
 epub: $(epub)
 mobi: $(mobi)
+pdf: $(pdf)
+
+clean:
+	rm -rf "$(output)" "$(epub)" "$(mobi)" "$(pdf)" "$(zip)"
 
 test: browser node
 
 words:
 	find book -name "*.txt" | xargs wc -w
+
+$(zip): all
+	mkdir -p "$(title)"
+	cp "$(epub)" "$(title)/$(epub)"
+	cp "$(mobi)" "$(title)/$(mobi)"
+	cp "$(pdf)" "$(title)/$(pdf)"
+	cp -r code "$(title)/Code"
+	zip -r "$(zip)" "$(title)"
+	rm -rf "$(title)"
 
 $(mobi): $(epub)
 	kindlegen "$(epub)" -o "$(mobi)" || true
@@ -46,15 +60,12 @@ $(fo): $(docbook)
 	./scripts/highlight fo "$(fo)" "$(dir)"
 
 $(docbook): clean
-	mkdir "$(output)"
+	mkdir -p "$(output)"
 	asciidoc -a docinfo -b docbook -o "$(docbook)" "$(source)"
 	./scripts/highlight docbook "$(docbook)" "$(dir)"
 
-clean:
-	rm -rf "$(output)" "$(epub)" "$(mobi)" "$(pdf)"
-
 browser:
-	for file in $$(find code/browser -name browser.html); do \
+	for file in $$(find code/browser -name test.html); do \
 		echo "Testing: $$file"; \
 		FORMAT=tap phantomjs code/phantom.js $$file; \
 		if [ $$? -ne 0 ]; then \
@@ -63,7 +74,7 @@ browser:
 	done
 
 node:
-	for file in $$(find code/node -name node.js); do \
+	for file in $$(find code/node -name test.js); do \
 		echo "Testing: $$file"; \
 		FORMAT=tap node $$file; \
 		if [ $$? -ne 0 ]; then \

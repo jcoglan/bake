@@ -1,14 +1,18 @@
 {
-  "name":         "javascript-testing-recipes",
+  "name":         "bake",
   "version":      "1.0.0",
-  "description":  "Code examples for JavaScript Testing Recipes",
-  "homepage":     "http://jstesting.jcoglan.com/",
+  "description":  "Code examples",
+  "homepage":     "http://github.com/jcoglan/bake",
+
+  "scripts": {
+    "update": "rm -rf node_modules ; npm install ; npm dedupe"
+  },
 
   "dependencies": {
     "async":   "~0.2.0",
     "express": "~3.4.0",
     "jstest":  "~1.0.0",
-    "request": "~2.27.0"
+    "request": "~2.30.0"
   }
 }
 
