@@ -28,7 +28,7 @@ clean:
 test: browser node
 
 words:
-	find book -name "*.txt" | xargs wc -w
+	find book -name "*.txt" | sort | xargs wc -w
 
 $(zip): all
 	mkdir -p "$(title)"
