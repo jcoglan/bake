@@ -81,7 +81,7 @@ def highlight_node(xml, node, format):
         span.setAttribute('font-style', style)
         span.setAttribute('font-weight', weight)
     elif format == 'html':
-        span = xml.createElement('span')
+        span = xml.createElement('code')
         css = 'color: ' + color + '; font-style: ' + style + '; font-weight: ' + weight
         span.setAttribute('style', css)
 
