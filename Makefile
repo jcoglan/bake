@@ -1,36 +1,33 @@
-dir     = book
-source  = $(dir)/book.txt
-images  = $(dir)/images
-foxsl   = $(dir)/fo.xsl
-epubxsl = $(dir)/epub.xsl
-fopconf = $(dir)/fop.xconf
+source_dir    := book
+source        := $(source_dir)/book.txt
+images        := $(source_dir)/images
+foxsl         := $(source_dir)/fo.xsl
+epubxsl       := $(source_dir)/epub.xsl
+fopconf       := $(source_dir)/fop.xconf
 
-title   = example-book
-pdf     = $(title).pdf
-epub    = $(title).epub
-mobi    = $(title).mobi
-zip     = $(title).zip
+title         := example-book
+epub          := $(title).epub
+mobi          := $(title).mobi
+pdf           := $(title).pdf
+zip           := $(title).zip
 
-output  = .output
-docbook = $(output)/book.xml
-fo      = $(output)/book.fo
+book_files    := $(shell find book -type f)
+code_files    := $(shell find code -type f)
+example_files := $(shell find code/browser code/node -type f)
 
-all: test book
-book: pdf epub mobi words
-dist: $(zip)
+output        := .output
+docbook       := $(output)/book.xml
+fo            := $(output)/book.fo
+
+.PHONY: all book dist epub mobi pdf clean words test testcount browser node
+all: test book words
+book: epub mobi pdf
+dist: all $(zip)
 epub: $(epub)
 mobi: $(mobi)
 pdf: $(pdf)
 
-clean:
-	rm -rf "$(output)" "$(epub)" "$(mobi)" "$(pdf)" "$(zip)"
-
-test: browser node
-
-words:
-	find book -name "*.txt" | sort | xargs wc -w
-
-$(zip): all
+$(zip): $(epub) $(mobi) $(pdf) $(code_files)
 	mkdir -p "$(title)"
 	cp "$(epub)" "$(title)/$(epub)"
 	cp "$(mobi)" "$(title)/$(mobi)"
@@ -42,27 +39,38 @@ $(zip): all
 $(mobi): $(epub)
 	kindlegen "$(epub)" -o "$(mobi)" || true
 
-$(epub): $(docbook)
+$(epub): $(book_files) $(docbook)
 	xsltproc -o "$(epub)" "$(epubxsl)" "$(docbook)"
 	echo -n "application/epub+zip" > mimetype
-	find OEBPS -type f -name "*html" -exec ./scripts/highlight html {} "$(dir)" \;
+	find OEBPS -type f -name "*html" -exec ./scripts/highlight html {} "$(source_dir)" \;
 	mkdir -p "$$(dirname OEBPS/$(images))"
 	cp -r "$(images)" "OEBPS/$(images)"
 	zip -0X "$(epub)" mimetype
 	zip -9XDr "$(epub)" META-INF OEBPS
 	rm -rf mimetype META-INF OEBPS
 
-$(pdf): $(fo)
+$(pdf): $(book_files) $(fo)
 	fop -c "$(fopconf)" -fo "$(fo)" -pdf "$(pdf)"
 
-$(fo): $(docbook)
+$(fo): $(book_files) $(docbook)
 	xsltproc -o "$(fo)" "$(foxsl)" "$(docbook)"
-	./scripts/highlight fo "$(fo)" "$(dir)"
+	./scripts/highlight fo "$(fo)" "$(source_dir)"
 
-$(docbook): clean
+$(docbook): $(book_files) $(example_files)
 	mkdir -p "$(output)"
 	asciidoc -a docinfo -b docbook -o "$(docbook)" "$(source)"
-	./scripts/highlight docbook "$(docbook)" "$(dir)"
+	./scripts/highlight docbook "$(docbook)" "$(source_dir)"
+
+clean:
+	rm -rf "$(output)" "$(epub)" "$(mobi)" "$(pdf)" "$(zip)"
+
+words:
+	find book -name "*.txt" | sort | xargs wc -w
+
+test: browser node
+
+testcount:
+	$(MAKE) test 2> /dev/null | grep "1\.\." | cut -d. -f3 | paste -sd+ | bc
 
 browser:
 	for file in $$(find code/browser -name test.html); do \
