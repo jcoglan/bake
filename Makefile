@@ -33,33 +33,33 @@ $(zip): $(epub) $(mobi) $(pdf) $(code_files)
 	cp "$(mobi)" "$(title)/$(mobi)"
 	cp "$(pdf)" "$(title)/$(pdf)"
 	cp -r code "$(title)/Code"
-	zip -r "$(zip)" "$(title)"
+	zip -r "$@" "$(title)"
 	rm -rf "$(title)"
 
 $(mobi): $(epub)
-	kindlegen "$(epub)" -o "$(mobi)" || true
+	kindlegen "$<" -o "$@" || true
 
 $(epub): $(book_files) $(docbook)
-	xsltproc -o "$(epub)" "$(epubxsl)" "$(docbook)"
+	xsltproc -o "$@" "$(epubxsl)" "$(docbook)"
 	echo -n "application/epub+zip" > mimetype
 	find OEBPS -type f -name "*html" -exec ./scripts/highlight html {} "$(source_dir)" \;
 	mkdir -p "$$(dirname OEBPS/$(images))"
 	cp -r "$(images)" "OEBPS/$(images)"
-	zip -0X "$(epub)" mimetype
-	zip -9XDr "$(epub)" META-INF OEBPS
+	zip -0X "$@" mimetype
+	zip -9XDr "$@" META-INF OEBPS
 	rm -rf mimetype META-INF OEBPS
 
 $(pdf): $(book_files) $(fo)
-	fop -c "$(fopconf)" -fo "$(fo)" -pdf "$(pdf)"
+	fop -c "$(fopconf)" -fo "$(fo)" -pdf "$@"
 
 $(fo): $(book_files) $(docbook)
-	xsltproc -o "$(fo)" "$(foxsl)" "$(docbook)"
-	./scripts/highlight fo "$(fo)" "$(source_dir)"
+	xsltproc -o "$@" "$(foxsl)" "$(docbook)"
+	./scripts/highlight fo "$@" "$(source_dir)"
 
 $(docbook): $(book_files) $(example_files)
 	mkdir -p "$(output)"
-	asciidoc -a docinfo -b docbook -o "$(docbook)" "$(source)"
-	./scripts/highlight docbook "$(docbook)" "$(source_dir)"
+	asciidoc -a docinfo -b docbook -o "$@" "$(source)"
+	./scripts/highlight docbook "$@" "$(source_dir)"
 
 clean:
 	rm -rf "$(output)" "$(epub)" "$(mobi)" "$(pdf)" "$(zip)"
