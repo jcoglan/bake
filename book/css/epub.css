@@ -1,0 +1,20 @@
+h1, .title {
+  text-align: left;
+}
+
+p.title {
+  font-size: 0.8em;
+  font-style: italic;
+  font-weight: normal;
+}
+
+code.literal {
+  font-size: 0.9em;
+}
+
+pre.programlisting {
+  border-left: 1em solid #f0f0f0;
+  font-size: 0.9em;
+  padding-left: 2em;
+}
+

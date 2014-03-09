@@ -1,4 +1,4 @@
-<?xml version='1.0'?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
@@ -55,9 +55,9 @@
   <xsl:attribute name="padding-left">2em</xsl:attribute>
 </xsl:attribute-set>
 
-<!-- Front page templates -->
-<!-- See https://lists.oasis-open.org/archives/docbook-apps/201008/msg00131.html -->
-<!-- and https://lists.oasis-open.org/archives/docbook-apps/201309/msg00025.html -->
+<!-- Front page templates
+     See https://lists.oasis-open.org/archives/docbook-apps/201008/msg00131.html
+     and https://lists.oasis-open.org/archives/docbook-apps/201309/msg00025.html -->
 <xsl:template name="front.cover">
   <xsl:call-template name="page.sequence">
     <xsl:with-param name="master-reference">titlepage</xsl:with-param>
