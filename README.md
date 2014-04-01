@@ -25,7 +25,7 @@ install`.
 
 * `asciidoc`
 * `fop`
-* `kindlegen` (download from Amazon)
+* `ebook-convert` (part of Calibre)
 * `make`
 * `python` and `python-pygments`
 * `xsltproc`

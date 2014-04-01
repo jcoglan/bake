@@ -38,7 +38,7 @@ $(zip): $(epub) $(mobi) $(pdf) $(example_files)
 	rm -rf $(title)
 
 $(mobi): $(epub)
-	kindlegen $< -o $@ || true
+	ebook-convert $< $@ || true
 
 $(epub): $(book_files) $(docbook)
 	xsltproc -o $@ $(epubxsl) $(docbook)
