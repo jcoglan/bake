@@ -78,25 +78,18 @@ testcount:
 compile:
 	for file in $$(find code/browser -type f -name Makefile); do \
 		echo "Compiling: $$file"; \
-		$(MAKE) -C $$(dirname $$file);\
+		$(MAKE) -C $$(dirname $$file); \
 		$(MAKE) -C $$(dirname $$file) test.js || true; \
 	done
 
 browser: compile
 	for file in $$(find code/browser -name test.html); do \
 		echo "Testing: $$file"; \
-		FORMAT=tap phantomjs code/phantom.js $$file; \
-		if [ $$? -ne 0 ]; then \
-			exit 1; \
-		fi; \
+		FORMAT=tap phantomjs code/phantom.js $$file || exit 1; \
 	done
 
 node:
 	for file in $$(find code/node -name test.js); do \
 		echo "Testing: $$file"; \
-		FORMAT=tap node $$file; \
-		if [ $$? -ne 0 ]; then \
-			exit 1; \
-		fi; \
+		BROWSER=phantomjs FORMAT=tap node $$file || exit 1; \
 	done
-

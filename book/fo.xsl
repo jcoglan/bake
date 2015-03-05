@@ -12,6 +12,11 @@
      section index. -->
 <xsl:param name="fop1.extensions">1</xsl:param>
 
+<!-- Convert asciidoc page breaks into FO equivalents -->
+<xsl:template match="processing-instruction('asciidoc-pagebreak')">
+  <fo:block break-after="page" />
+</xsl:template>
+
 <!-- Layout and typography -->
 <xsl:param name="paper.type">A4</xsl:param>
 <xsl:param name="title.font.family">Ubuntu, FreeSans, sans-serif</xsl:param>
@@ -77,4 +82,3 @@
 <xsl:template name="book.titlepage"/>
 
 </xsl:stylesheet>
-

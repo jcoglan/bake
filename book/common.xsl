@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 version="1.0">
 
 <!-- If the source contains a <?asciidoc-numbered?> directive, then enable
@@ -12,11 +11,6 @@
     <xsl:otherwise>0</xsl:otherwise>
   </xsl:choose>
 </xsl:param>
-
-<!-- Convert asciidoc page breaks into FO equivalents -->
-<xsl:template match="processing-instruction('asciidoc-pagebreak')">
-  <fo:block break-after="page" />
-</xsl:template>
 
 <!-- Generated text settings - these control generated titles, cross references,
      and so forth. -->
@@ -39,4 +33,3 @@
 <xsl:param name="hyphenate">false</xsl:param>
 
 </xsl:stylesheet>
-

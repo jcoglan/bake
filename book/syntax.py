@@ -14,4 +14,3 @@ PYGMENTS_THEME = {
     ('n', 'o', 'p'):            {},
     ('s', 's1', 's2', 'ss'):    {'color': '#d14'},
 }
-
