@@ -17,6 +17,9 @@
   <fo:block break-after="page" />
 </xsl:template>
 
+<!-- Set which elements have a table of contents -->
+<xsl:param name="generate.toc" select="'book title,toc,figure'" />
+
 <!-- Layout and typography -->
 <xsl:param name="paper.type">A4</xsl:param>
 <xsl:param name="title.font.family">Ubuntu, FreeSans, sans-serif</xsl:param>
@@ -30,7 +33,7 @@
 </xsl:attribute-set>
 
 <xsl:param name="body.font.family">serif</xsl:param>
-<xsl:param name="body.font.size">11pt</xsl:param>
+<xsl:param name="body.font.size">12pt</xsl:param>
 <xsl:param name="body.margin.inner">0</xsl:param>
 <xsl:param name="body.start.indent">0</xsl:param>
 
@@ -49,7 +52,7 @@
 </xsl:attribute-set>
 
 <!-- Formatting for code blocks -->
-<xsl:param name="shade.verbatim" select="1"/>
+<xsl:param name="shade.verbatim" select="1" />
 <xsl:attribute-set name="shade.verbatim.style">
   <xsl:attribute name="background-color">transparent</xsl:attribute>
   <xsl:attribute name="border-left-width">1em</xsl:attribute>
@@ -73,12 +76,12 @@
                            top="-(1mm + {$page.margin.top} + {$body.margin.top})"
                            left="-({$page.margin.inner})">
         <fo:block text-align="center">
-          <fo:external-graphic src="url(book/images/cover.jpg)" content-width="21cm"/>
+          <fo:external-graphic src="url(book/images/cover.jpg)" content-width="21cm" />
         </fo:block>
       </fo:block-container>
     </xsl:with-param>
   </xsl:call-template>
 </xsl:template>
-<xsl:template name="book.titlepage"/>
+<xsl:template name="book.titlepage" />
 
 </xsl:stylesheet>

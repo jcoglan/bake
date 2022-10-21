@@ -1,12 +1,14 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import os
-import sys
 import re
-from xml.dom.minidom import Node, parse, parseString
+import sys
+
 from pygments import highlight
+from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name
-from pygments.formatters import get_formatter_by_name
+from xml.dom.minidom import Node, parse, parseString
+
 
 format = sys.argv[1]
 target = sys.argv[2]
@@ -16,11 +18,14 @@ xml    = parse(target)
 sys.path.append(path)
 import syntax
 
+
 def get_theme(type):
     settings = syntax.PYGMENTS_THEME
     for tags in settings:
         if type in tags: return settings[tags]
+    print('missing syntax type: ' + type)
     return {}
+
 
 def fix_formalpara(para):
     listing = para.getElementsByTagName('programlisting')
@@ -40,6 +45,7 @@ def fix_formalpara(para):
     figure.appendChild(listing)
     parent.removeChild(para)
 
+
 def highlight_block(xml, block, format):
     for child in block.childNodes:
         if child.nodeType != Node.TEXT_NODE: continue
@@ -50,43 +56,47 @@ def highlight_block(xml, block, format):
 
         if match == None: continue
 
-        lexer     = get_lexer_by_name(match.group(1))
-        formatter = get_formatter_by_name('html')
-        code      = re.sub(pattern, '', code)
+        lexer = get_lexer_by_name(match.group(1))
+        code  = re.sub(pattern, '', code)
 
-        doc = parseString(highlight(code, lexer, formatter))
+        doc = parseString(highlight(code, lexer, HtmlFormatter()))
+        pre = doc.getElementsByTagName('pre')[0]
 
-        for node in doc.getElementsByTagName('pre')[0].childNodes:
+        for node in pre.childNodes:
             if node.nodeType == Node.TEXT_NODE:
                 block.insertBefore(xml.createTextNode(node.nodeValue), child)
             else:
                 span = highlight_node(xml, node, format)
-                block.insertBefore(span, child)
+                if span: block.insertBefore(span, child)
 
         block.removeChild(child)
 
+
 def highlight_node(xml, node, format):
-    klass  = node.getAttribute('class')
-    text   = node.childNodes[0].nodeValue
-    theme  = get_theme(klass)
+    if not node.childNodes: return None
+
+    theme  = get_theme(node.getAttribute('class'))
+    bg     = theme.get('background', 'transparent')
     color  = theme.get('color', '#000')
     style  = theme.get('style', 'normal')
     weight = theme.get('weight', 'normal')
 
-    if os.environ.get('DEBUG'): print (klass, text, theme)
-
     if format == 'fo':
         span = xml.createElement('fo:inline')
+        span.setAttribute('background-color', bg)
         span.setAttribute('color', color)
         span.setAttribute('font-style', style)
         span.setAttribute('font-weight', weight)
     elif format == 'html':
         span = xml.createElement('code')
-        css = 'color: ' + color + '; font-style: ' + style + '; font-weight: ' + weight
+        css = 'background-color: ' + bg + '; color: ' + color + '; font-style: ' + style + '; font-weight: ' + weight
         span.setAttribute('style', css)
 
+    text = node.childNodes[0].nodeValue
     span.appendChild(xml.createTextNode(text))
+
     return span
+
 
 if format == 'docbook':
     for para in xml.getElementsByTagName('formalpara'):
@@ -106,10 +116,10 @@ elif format == 'fo':
 
 elif format == 'html':
     for block in xml.getElementsByTagName('pre'):
-        if (block.getAttribute('class') != 'programlisting'): continue
-        highlight_block(xml, block, 'html')
+        if block.getAttribute('class') == 'programlisting':
+            highlight_block(xml, block, 'html')
+
 
 file = open(target, 'w')
-file.write(xml.toxml().encode('utf-8'))
+file.write(xml.toxml())
 file.close()
-

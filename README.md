@@ -47,8 +47,8 @@ When you run `make` in this directory, the following things happen:
 * The XSL-FO file is compiled into a PDF
 * The EPUB files are bundled into a zip archive and converted to MOBI
 
-The book's formatting is controlled by the files in the `book` directory, in
-particular:
+The book's formatting is controlled by the files in the `book` and `config`
+directories, in particular:
 
 * `book.txt`: This is the root file for the book's content, written in AsciiDoc.
 * `book-docinfo.xml`: Contains additional XML that specifies the cover image.
